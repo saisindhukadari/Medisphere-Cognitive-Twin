@@ -1,51 +1,35 @@
-# MediSphere Cognitive Twin — AI Health Prediction Platform
+# MediSphere Cognitive Twin 🏥
 
-A full-stack healthcare management platform for digital patient health twins, AI-based health-risk prediction, real-time vitals monitoring, clinical alerts, FHIR interoperability, and provider-approved care plans.
+## AI Health Prediction & Digital Twin Platform
 
-> **Important:** All patient data in this project is synthetic. AI/ML outputs and the care-plan generator are simulated and clearly labeled. This project demonstrates a prototype security and audit architecture. It is **not HIPAA certified** and is **not medical advice**.
+**MediSphere Cognitive Twin** is a full-stack healthcare management platform that combines **FHIR interoperability, digital patient twins, AI-assisted health-risk prediction, real-time monitoring, clinical alerts, and personalized care plans**.
+
+The project is developed across **four milestones**, where each milestone adds a major component to the overall healthcare workflow.
+
+> **Disclaimer:** All patient data used in this project is synthetic. AI predictions, monitoring results, anomaly detection, and care-plan generation are simulated/demo functionality. This project is a prototype, is **not HIPAA certified**, and does not provide medical advice.
 
 ---
 
 ## 🚀 Project Overview
 
-**MediSphere Cognitive Twin** is an AI-enabled healthcare management platform that creates digital health twins for patients and integrates healthcare data from multiple sources.
+MediSphere Cognitive Twin creates a digital representation of a patient's health information and connects healthcare data with AI-assisted decision-support workflows.
 
-The platform follows an integrated workflow across four milestones:
+The platform integrates:
 
-1. **FHIR Integration & Digital Twin Foundation**
-2. **Federated Learning & AI Risk Prediction**
-3. **Continuous Monitoring & Clinical Alerts**
-4. **AI Care Plans & Preventive Intervention**
+* FHIR R4 healthcare interoperability
+* Digital patient twins
+* AI-assisted risk prediction
+* Simulated federated-learning architecture
+* Real-time vital monitoring
+* Clinical alerts and notifications
+* Personalized care plans
+* Provider review and approval
+* Consent management
+* Role-based access control
+* Audit logging
+* Healthcare reports
 
-The project uses Angular 20 for the frontend, Spring Boot 4 with Java 25 for the backend, MongoDB for data storage, Apache Kafka for event streaming, and FHIR R4 for healthcare interoperability.
-
-The system is designed as a prototype for demonstrating digital twin technology, healthcare AI, clinical decision support, monitoring, and preventive care workflows.
-
----
-
-## 🏗️ Technology Stack
-
-| Component                   | Technology                       |
-| --------------------------- | -------------------------------- |
-| Frontend                    | Angular 20                       |
-| Backend                     | Spring Boot 4                    |
-| Programming Language        | Java 25                          |
-| Database                    | MongoDB                          |
-| Messaging                   | Apache Kafka                     |
-| Healthcare Interoperability | FHIR R4                          |
-| Authentication              | JWT                              |
-| AI/ML                       | Simulated Risk Prediction Models |
-| Explainability              | SHAP-style explanations          |
-| AI Service                  | FastAPI                          |
-| Containerization            | Docker                           |
-| Infrastructure              | Kubernetes                       |
-| Data                        | Synthetic Healthcare Data        |
-
----
-
-# 🔄 Integrated Project Workflow
-
-The complete MediSphere workflow connects all four milestones:
+The complete platform follows this workflow:
 
 ```text
 Patient / Provider
@@ -58,7 +42,7 @@ FHIR R4 Healthcare Data
        ↓
 Kafka Event Streaming
        ↓
-MongoDB Patient Data
+MongoDB
        ↓
 Digital Patient Twin
        ↓
@@ -72,208 +56,483 @@ AI-Assisted Care Plan
        ↓
 Provider Review & Approval
        ↓
-Patient Monitoring & Outcomes
+Intervention & Outcome Tracking
 ```
 
-The project specification describes this overall workflow as:
+---
+
+# 🏗️ Technology Stack
+
+| Component            | Technology                |
+| -------------------- | ------------------------- |
+| Frontend             | Angular 20                |
+| Backend              | Spring Boot 4             |
+| Programming Language | Java 25                   |
+| Database             | MongoDB                   |
+| Messaging            | Apache Kafka              |
+| Healthcare Standard  | FHIR R4                   |
+| Authentication       | JWT                       |
+| AI/ML                | Simulated Risk Prediction |
+| Explainability       | SHAP-style explanations   |
+| AI Service           | FastAPI                   |
+| Containerization     | Docker                    |
+| Infrastructure       | Kubernetes                |
+| Data                 | Synthetic Healthcare Data |
+
+---
+
+# 🔄 Four-Milestone Architecture
 
 ```text
-Wearables + EHR + Labs
+Milestone 1
+FHIR Integration + Digital Twin
+          ↓
+Milestone 2
+AI Risk Prediction
+          ↓
+Milestone 3
+Real-Time Monitoring + Alerts
+          ↓
+Milestone 4
+Care Plans + Preventive Intervention
+          ↓
+Integrated Healthcare Platform
+```
+
+---
+
+# 📌 Milestone 1 — FHIR Integration & Digital Twin Foundation
+
+Milestone 1 establishes the healthcare data foundation and digital patient twin.
+
+### Key Features
+
+* FHIR R4 API integration
+* Patient resource management
+* Condition resources
+* Observation resources
+* MedicationRequest resources
+* JSON-to-FHIR mapping
+* FHIR resource validation
+* MongoDB patient-twin storage
+* Digital patient twin creation
+* Kafka-based vitals streaming
+* Patient 360 dashboard
+* Consent management
+* Role-based access control
+* Audit logging
+
+### Workflow
+
+```text
+EHR / Wearables / Labs
         ↓
      FHIR API
         ↓
       Kafka
         ↓
-    MongoDB
+     MongoDB
         ↓
-TensorFlow Federated
+ Digital Patient Twin
         ↓
-Clinician Dashboard
-        ↓
-Preventive Intervention
+ Patient 360 Dashboard
+```
+
+### Patient 360
+
+The Patient 360 workflow provides a consolidated view of:
+
+* Patient demographics
+* Conditions
+* Vitals
+* Laboratory results
+* Medications
+* Digital twin
+* Risk predictions
+* Care plans
+* Alerts
+* Consent
+* FHIR resources
+* Audit information
+
+---
+
+# 🤖 Milestone 2 — Federated Learning & AI Risk Prediction
+
+Milestone 2 introduces AI-assisted health-risk prediction.
+
+The architecture demonstrates the concept of privacy-preserving federated learning, where healthcare environments can contribute to model-learning workflows without directly sharing raw patient information.
+
+### Key Features
+
+* Cardiovascular risk prediction
+* Diabetes complication prediction
+* Simulated federated learning
+* Risk prediction history
+* Model versioning
+* Prediction confidence
+* SHAP-style explainability
+* Risk-factor visualization
+* Clinical evidence display
+* Provider review
+
+### Workflow
+
+```text
+Patient / Digital Twin Data
+          ↓
+       AI Model
+          ↓
+    Risk Prediction
+          ↓
+ Confidence + Explanation
+          ↓
+     Provider Review
+```
+
+AI outputs are simulated/demo results and are not intended for clinical decision-making.
+
+---
+
+# 📡 Milestone 3 — Continuous Monitoring & Clinical Alerts
+
+Milestone 3 introduces real-time patient monitoring and alert management.
+
+Vital readings from connected devices can be processed through Kafka and evaluated using monitoring and clinical-rule workflows.
+
+### Key Features
+
+* Real-time vital monitoring
+* Wearable/device data
+* Kafka event streaming
+* Anomaly detection simulation
+* Clinical rule engine
+* Alert generation
+* Critical-alert filtering
+* Provider notifications
+* Alert acknowledgment
+* Provider routing
+* Monitoring dashboard
+
+### Workflow
+
+```text
+Wearable / Device
+       ↓
+   Vital Reading
+       ↓
+      Kafka
+       ↓
+Monitoring Engine
+       ↓
+Anomaly / Rule Detection
+       ↓
+      Alert
+       ↓
+Provider Notification
+       ↓
+Acknowledgment
 ```
 
 ---
 
-# 🐳 Quick Start — Docker
+# 🧑‍⚕️ Milestone 4 — AI Care Plans & Preventive Intervention
 
-### 1. Clone the repository
+Milestone 4 connects risk predictions and monitoring results with personalized preventive-care planning.
 
-```bash
-git clone <your-repository-url>
-cd Medisphere-Cognitive-Twin
-```
+The care-plan generator is simulated and requires provider review before critical actions.
 
-### 2. Create the environment file
+### Key Features
 
-```bash
-cp .env.example .env
-```
+* AI-assisted care-plan generation
+* Personalized health goals
+* Intervention tracking
+* Adherence tracking
+* Outcome measurement
+* Provider collaboration
+* Provider approval workflow
+* Care-plan progress tracking
+* Care-plan PDF export
 
-### 3. Start the complete application
-
-```bash
-docker compose up --build
-```
-
-### 4. Open the application
-
-Frontend:
+### Workflow
 
 ```text
-http://localhost:4200
+Risk Prediction
+      ↓
+Risk Factors
+      ↓
+Care Plan Generation
+      ↓
+Safety / Guideline Checks
+      ↓
+Provider Review
+      ↓
+Provider Approval
+      ↓
+Intervention
+      ↓
+Adherence Tracking
+      ↓
+Outcome Measurement
 ```
 
-Backend API:
-
-```text
-http://localhost:8080
-```
-
-MongoDB and Kafka are included in the Docker Compose stack.
-
-The backend automatically seeds the synthetic demo dataset on first startup when:
-
-```text
-SEED_ENABLED=true
-```
+Critical actions such as medication changes and care-plan approval require provider authorization in the prototype workflow.
 
 ---
 
-# 💻 Local Development
+# 🖥️ Main Application Modules
 
-Docker can also be used only for infrastructure while running the Angular and Spring Boot applications locally.
+The integrated application contains:
 
-### Start MongoDB and Kafka
-
-```bash
-docker compose up -d mongodb kafka
-```
-
-### Start the Spring Boot backend
-
-```bash
-cd backend
-mvn spring-boot:run
-```
-
-The development backend runs on:
-
-```text
-http://localhost:8081
-```
-
-### Start the Angular frontend
-
-```bash
-cd frontend
-npm ci
-npx ng serve
-```
-
-The Angular development server runs on:
-
-```text
-http://localhost:4300
-```
+* 🏠 Home
+* 🔐 Login & Registration
+* 📊 Dashboard
+* 👥 Patient Management
+* 🩺 Patient 360
+* 🧬 Digital Twin
+* 🤖 AI Risk Prediction
+* 📡 Real-Time Monitoring
+* 🚨 Alerts
+* 🧑‍⚕️ Care Plans
+* 📑 Reports
+* ⚙️ Settings
+* 🔐 Security & Audit
 
 ---
 
-# 🔌 Development Ports
+# 🏠 Application Features
 
-| Service       |     Port | Description                |
-| ------------- | -------: | -------------------------- |
-| Angular       |   `4300` | Development frontend       |
-| Spring Boot   |   `8081` | Development backend API    |
-| Angular Proxy | `/api/*` | Proxies requests to `8081` |
-| MongoDB       |  `27017` | Database                   |
-| Kafka         |   `9092` | Event streaming            |
+## Home
 
-The Angular proxy forwards:
+* Project introduction
+* Animated hero section
+* Navigation
+* Login/signup access
+* Session-aware actions
 
-```text
-/api/*
-```
+## Authentication
 
-to:
+* User registration
+* Login
+* Logout
+* Remember-me option
+* Demo accounts
+* Session handling
+* JWT authentication
 
-```text
-http://localhost:8081
-```
+## Dashboard
 
-The backend URL can be overridden using:
+* User greeting
+* KPI cards
+* Risk distribution
+* Patient statistics
+* Coverage statistics
+* 7-day activity
+* Care journey indicators
+* High-risk patient table
 
-```text
-BACKEND_URL
-```
+## Patients
+
+* Patient listing
+* Search
+* Filtering
+* Patient profile access
+
+## Patient 360
+
+A consolidated patient workflow containing healthcare, risk, monitoring, FHIR, care-plan, and audit information.
+
+## Digital Twin
+
+* Patient digital twin
+* Health information
+* Vital information
+* Risk information
+* Patient status
+
+## Risk Prediction
+
+* Current risk
+* Risk trend
+* Risk history
+* Risk factors
+* SHAP-style explanations
+* Confidence information
+
+## Monitoring
+
+* Real-time vital information
+* Device monitoring
+* Monitoring status
+* Alert events
+
+## Alerts
+
+* Alert list
+* Severity filtering
+* Critical-only filtering
+* Alert acknowledgment
+* Provider notifications
+
+## Care Plans
+
+* Active care plans
+* Goals
+* Interventions
+* Progress
+* Adherence
+* Provider approval
+* PDF download
+
+## Reports
+
+* Healthcare reports
+* CSV export
+
+## Settings
+
+Appearance and application preferences include:
+
+* Light theme
+* Dark theme
+* System theme
+* Accent color presets
+* Custom accent color
+* Compact sidebar
+* Reduced motion
+* Dense tables
+* Tooltips
+* Monitoring toggle
+* Notifications toggle
+
+Preferences are persisted using `localStorage`.
 
 ---
 
-# 🌐 CORS Configuration
+# 🔒 Security & Privacy
 
-CORS is environment-driven and is not hardcoded to a single frontend origin.
+The project demonstrates a prototype security and audit architecture.
 
-Default allowed origins:
+### Security Features
+
+* JWT authentication
+* Role-based access control
+* Provider/patient access restrictions
+* Consent management
+* Audit logging
+* Protected API endpoints
+* Session management
+* Environment-based CORS configuration
+
+> This application is **not HIPAA certified**.
+
+Production deployment would require appropriate:
+
+* Security hardening
+* Encryption
+* Privacy controls
+* Clinical validation
+* Legal review
+* Regulatory assessment
+* Infrastructure security
+* Access controls
+* Production-grade auditing
+
+---
+
+# 📋 FHIR Support
+
+The platform uses **FHIR R4** concepts for healthcare interoperability.
+
+Supported resource workflows include:
 
 ```text
-http://localhost:4300
-http://localhost:4200
+Patient
+Condition
+Observation
+MedicationRequest
 ```
 
-Configure using:
+FHIR functionality includes:
+
+* Resource creation
+* Resource retrieval
+* Resource validation
+* JSON-to-FHIR mapping
+* FHIR API integration
+* Resource storage
+* Patient-linked resources
+* Status and error handling
+
+All FHIR data used in the demo is synthetic.
+
+---
+
+# 🧠 AI / ML Architecture
+
+The project contains an `ai/` module for AI-related functionality.
 
 ```text
-CORS_ALLOWED_ORIGINS
+ai/
+├── FastAPI prediction service
+└── Federated-learning architecture notes
 ```
+
+The architecture demonstrates:
+
+* Risk prediction
+* Federated-learning concepts
+* Model versioning
+* Prediction confidence
+* SHAP-style explainability
+
+Where production ML models are unavailable, the current prototype uses simulated/demo behavior.
 
 ---
 
 # 🧪 Synthetic Demo Data
 
-All healthcare information in the project is **fictional and synthetic**.
+All healthcare information in this project is **fictional and synthetic**.
 
-The backend creates an idempotent synthetic dataset using:
+The backend supports an idempotent synthetic dataset using:
 
 ```text
 demo-seed-v3
 ```
 
-A `seed_markers` collection is used to track the seed version.
+A `seed_markers` collection tracks the seed version.
 
-If a seed operation is interrupted, the next application startup detects the incomplete operation and repairs the demo collections automatically.
+If a seed operation is interrupted, the next application startup can detect the incomplete operation and repair the demo collections.
 
 Existing user accounts are preserved.
 
----
+### Seeded Dataset
 
-# 📊 Seeded Dataset
+The demo dataset includes:
 
-The synthetic dataset contains:
-
-* **50 patients**
-* High-, medium-, and low-risk patient profiles
+* 50 patients
+* High-, medium-, and low-risk profiles
 * Hypertension profiles
 * Diabetes profiles
 * Cardiovascular profiles
 * Healthy profiles
-* **7 doctors/providers**
-* **50 digital twins**
-* **3,500 vital readings**
+* 7 doctors/providers
+* 50 digital twins
+* 3,500 vital readings
 * 14 days of vital data
 * 5 vital types per patient
-* **500 laboratory results**
-* Risk-prediction history for every patient
-* **35+ care plans**
-* **150+ alerts**
-* Alerts distributed across 7 days
-* **350+ FHIR resources**
-* **100 consents**
+* 500 laboratory results
+* Risk-prediction history
+* 35+ care plans
+* 150+ alerts
+* 350+ FHIR resources
+* 100 consents
 * Devices
 * AI/ML model information
 * Notifications
 * Audit events
 
-Disable synthetic seeding using:
+Disable synthetic seeding with:
 
 ```text
 SEED_ENABLED=false
@@ -306,377 +565,132 @@ The UI displays the friendly label:
 Doctor
 ```
 
-Role names are not renamed in the API or database.
+---
+
+# 🐳 Quick Start — Docker
+
+## 1. Clone the Repository
+
+```bash
+git clone <your-repository-url>
+cd Medisphere-Cognitive-Twin
+```
+
+## 2. Create Environment File
+
+```bash
+cp .env.example .env
+```
+
+## 3. Start the Application
+
+```bash
+docker compose up --build
+```
+
+## 4. Open the Application
+
+Frontend:
+
+```text
+http://localhost:4200
+```
+
+Backend:
+
+```text
+http://localhost:8080
+```
+
+MongoDB and Kafka are included in the Docker Compose stack.
 
 ---
 
-# 🩺 Milestone 1 — FHIR Integration & Digital Twin Foundation
+# 💻 Local Development
 
-Milestone 1 establishes the healthcare data foundation of the platform.
+Docker can be used only for infrastructure while Angular and Spring Boot run locally.
 
-### Main Features
+### Start MongoDB and Kafka
 
-* FHIR R4 API integration
-* Patient resource management
-* Condition resources
-* Observation resources
-* MedicationRequest resources
-* FHIR validation
-* JSON-to-FHIR mapping
-* MongoDB patient twin storage
-* Digital patient twin creation
-* Kafka-based vitals streaming
-* Patient 360 dashboard
-* Consent management
-* RBAC
-* Audit logging
+```bash
+docker compose up -d mongodb kafka
+```
 
-### Patient 360
+### Start Backend
 
-The Patient 360 interface provides a consolidated view of patient information including:
+```bash
+cd backend
+mvn spring-boot:run
+```
 
-* Demographics
-* Conditions
-* Vitals
-* Laboratory results
-* Medications
-* Digital twin
-* Risk predictions
-* Care plans
-* Alerts
-* Consent
-* FHIR resources
-* Audit information
-
-The uploaded project specification identifies the core entities as:
+Development backend:
 
 ```text
-Patient
-HealthTwin
-Vitals
-LabResult
-RiskPrediction
-Careplan
-Alert
-Provider
-FHIRResource
-FLModel
+http://localhost:8081
+```
+
+### Start Frontend
+
+```bash
+cd frontend
+npm ci
+npx ng serve
+```
+
+Development frontend:
+
+```text
+http://localhost:4300
 ```
 
 ---
 
-# 🤖 Milestone 2 — Federated Learning & Risk Prediction
+# 🌐 Development Ports
 
-Milestone 2 introduces AI-assisted health-risk prediction.
+| Service       |     Port | Description                 |
+| ------------- | -------: | --------------------------- |
+| Angular       |   `4300` | Development frontend        |
+| Spring Boot   |   `8081` | Development backend         |
+| Angular Proxy | `/api/*` | Proxies requests to backend |
+| MongoDB       |  `27017` | Database                    |
+| Kafka         |   `9092` | Event streaming             |
 
-The architecture includes federated-learning concepts where models can be trained across healthcare environments without directly sharing patient data.
-
-### Main Features
-
-* Risk prediction
-* Cardiovascular risk prediction
-* Diabetes complication prediction
-* Model versioning
-* Federated-learning simulation
-* SHAP-style explainability
-* Risk history
-* Prediction confidence
-* Clinical evidence display
-
-The project specification describes TensorFlow Federated as the intended technology for privacy-preserving machine learning. The current application uses simulated/demo AI behavior where production models are unavailable.
-
-### Risk Prediction Workflow
+The Angular proxy forwards:
 
 ```text
-Patient Data
-     ↓
-FHIR / Digital Twin
-     ↓
-Risk Model
-     ↓
-Prediction
-     ↓
-Confidence Score
-     ↓
-Explainability
-     ↓
-Provider Review
+/api/*
 ```
 
-AI predictions are clearly labeled as simulated/demo outputs.
-
----
-
-# 📡 Milestone 3 — Continuous Monitoring & Alerts
-
-Milestone 3 focuses on real-time patient monitoring.
-
-Healthcare data from connected devices can be streamed through Kafka and processed by the monitoring workflow.
-
-### Main Features
-
-* Vital monitoring
-* Device data
-* Kafka event streaming
-* Anomaly detection simulation
-* Clinical rule engine
-* Alert generation
-* Alert filtering
-* Critical-only filtering
-* Notification workflow
-* Alert acknowledgment
-* Provider routing
-* Monitoring dashboard
-
-### Monitoring Workflow
+to:
 
 ```text
-Wearable / Device
-       ↓
-   Vital Reading
-       ↓
-      Kafka
-       ↓
-Monitoring Engine
-       ↓
-Anomaly / Rule Detection
-       ↓
-      Alert
-       ↓
-Provider Notification
-       ↓
-Acknowledgment
+http://localhost:8081
+```
+
+The backend URL can be overridden using:
+
+```text
+BACKEND_URL
 ```
 
 ---
 
-# 🧑‍⚕️ Milestone 4 — AI Care Plans & Intervention
+# 🔌 CORS Configuration
 
-Milestone 4 connects AI risk predictions with preventive care planning.
+CORS is environment-driven.
 
-The care-plan generator is simulated and does not provide real medical recommendations.
-
-### Main Features
-
-* Care-plan generation
-* Personalized goals
-* Intervention tracking
-* Adherence tracking
-* Outcome measurement
-* Provider collaboration
-* Provider approval workflow
-* Care-plan status tracking
-* Progress monitoring
-* Care-plan PDF export
-
-### Care Plan Workflow
+Default allowed origins:
 
 ```text
-Risk Prediction
-      ↓
-Risk Factors
-      ↓
-Care Plan Generator
-      ↓
-Safety / Guideline Checks
-      ↓
-Provider Review
-      ↓
-Provider Approval
-      ↓
-Patient Intervention
-      ↓
-Adherence Tracking
-      ↓
-Outcome Measurement
+http://localhost:4300
+http://localhost:4200
 ```
 
-Critical actions such as medication changes and care-plan approval require provider authorization in the prototype workflow.
-
----
-
-# 🖥️ Master Application Screens
-
-The integrated application contains the following major workflows:
-
-### 1. Home Page
-
-* Project introduction
-* Animated hero section
-* Navigation
-* Login/signup access
-* Session-aware CTAs
-
-### 2. Authentication
-
-* Sign up
-* Login
-* Logout
-* Remember-me option
-* Demo account access
-* Session handling
-
-### 3. Dashboard
-
-The dashboard includes:
-
-* Logged-in user greeting
-* KPI cards
-* Risk distribution
-* Coverage statistics
-* Volume statistics
-* 7-day activity
-* Care journey meters
-* High-risk patient table
-
-### 4. Patients
-
-* Patient listing
-* Search
-* Patient filtering
-* Patient profile access
-
-### 5. Patient 360
-
-A multi-tab patient view combining healthcare information into one workflow.
-
-### 6. Digital Twin
-
-* Patient digital twin
-* Body representation
-* Health information
-* Risk information
-
-### 7. Risk Prediction
-
-* Current risk
-* Risk trend
-* Risk history
-* SHAP-style explanation
-* Contributing factors
-* Confidence information
-
-### 8. Care Plans
-
-* Active plans
-* Goals
-* Interventions
-* Progress
-* Adherence
-* Provider approval
-* PDF download
-
-### 9. Alerts
-
-* Alert list
-* Severity filters
-* Critical-only toggle
-* Alert acknowledgment
-
-### 10. Monitoring
-
-* Real-time vital information
-* Patient/device monitoring
-* Monitoring status
-* Alert events
-
-### 11. Reports
-
-* Healthcare reports
-* CSV export
-
-### 12. Settings
-
-Appearance preferences include:
-
-* Light theme
-* Dark theme
-* System theme
-* Accent color presets
-* Custom accent color
-* Compact sidebar
-* Reduced motion
-* Dense tables
-* Tooltips
-* Monitoring toggle
-* Notifications toggle
-
-Preferences are persisted using `localStorage` and applied through the application's appearance service.
-
----
-
-# 🔐 Security & Access Control
-
-The project implements a prototype security and audit architecture.
-
-### Security Features
-
-* JWT authentication
-* Role-based access control
-* Provider/patient access restrictions
-* Consent verification
-* Audit logging
-* Protected API endpoints
-* Session management
-* CORS configuration
-* Environment-based configuration
-
-The project is **not HIPAA certified**.
-
-Production deployment would require:
-
-* Security hardening
-* Privacy controls
-* Encryption
-* Clinical validation
-* Legal review
-* Regulatory assessment
-* Infrastructure security
-* Appropriate access controls
-* Production-grade audit mechanisms
-
----
-
-# 📋 FHIR Support
-
-The project uses **FHIR R4** concepts for healthcare interoperability.
-
-Supported resource workflows include:
+Configure using:
 
 ```text
-Patient
-Condition
-Observation
-MedicationRequest
+CORS_ALLOWED_ORIGINS
 ```
-
-FHIR-related functionality includes:
-
-* Resource creation
-* Resource retrieval
-* Validation
-* JSON-to-FHIR mapping
-* FHIR API integration
-* Resource storage
-* Patient-linked resources
-
-FHIR resources are treated as synthetic demo healthcare data.
-
----
-
-# 🧠 AI / ML Architecture
-
-The project contains an `ai/` module for AI-related functionality.
-
-```text
-ai/
-├── FastAPI prediction service
-└── Federated-learning architecture notes
-```
-
-AI behavior in the current prototype is simulated where production ML models are unavailable.
-
-The UI clearly communicates that predictions are demonstration outputs.
 
 ---
 
@@ -696,8 +710,6 @@ Expected verification:
 BUILD SUCCESS
 ```
 
----
-
 ## Frontend Unit Tests
 
 ```bash
@@ -711,8 +723,6 @@ Expected verification:
 2/2 tests pass
 ```
 
----
-
 ## Production Build
 
 ```bash
@@ -720,9 +730,9 @@ cd frontend
 npx ng build
 ```
 
-The verified build completes without compilation errors.
+The recorded build completed without compilation errors.
 
-The initial bundle is approximately:
+The initial bundle was approximately:
 
 ```text
 660.60 kB
@@ -781,11 +791,11 @@ Expected response:
 
 ---
 
-# 🔒 Authentication Verification
+# 🔐 Authentication Verification
 
 Protected endpoints reject unauthenticated requests.
 
-For example:
+Example:
 
 ```http
 GET /api/reports/export
@@ -801,7 +811,7 @@ Expected response:
 
 # 📊 Verified Seed Census
 
-The last recorded verification contains approximately:
+Last recorded verification:
 
 ```text
 50 patients
@@ -863,7 +873,7 @@ Medisphere-Cognitive-Twin/
 
 # 📚 Documentation
 
-Additional project documentation is available in:
+Additional documentation is available in:
 
 ```text
 docs/ARCHITECTURE.md
@@ -877,13 +887,47 @@ docs/DEMO.md
 
 ---
 
+# 🎯 Project Goal
+
+MediSphere Cognitive Twin demonstrates an end-to-end healthcare platform by connecting:
+
+```text
+FHIR
+  ↓
+Digital Patient Twin
+  ↓
+AI Risk Prediction
+  ↓
+Real-Time Monitoring
+  ↓
+Clinical Alerts
+  ↓
+Personalized Care Plans
+  ↓
+Provider Approval
+  ↓
+Continuous Monitoring
+```
+
+The goal is to demonstrate how modern technologies can work together to support:
+
+* Preventive healthcare
+* Continuous patient monitoring
+* Healthcare interoperability
+* Digital twin technology
+* AI-assisted risk assessment
+* Clinical decision-support workflows
+* Personalized care planning
+
+---
+
 # ⚠️ Limitations & Disclaimer
 
 MediSphere Cognitive Twin is a **prototype/demo healthcare application**.
 
 All patient information is synthetic.
 
-AI predictions, anomaly detection, risk models, and care-plan generation are simulated where production models are unavailable.
+AI predictions, anomaly detection, risk models, federated-learning behavior, and care-plan generation are simulated where production models are unavailable.
 
 This project:
 
@@ -909,33 +953,9 @@ Provider approval is required for critical clinical actions in the prototype wor
 
 ---
 
-# 🎯 Project Objective
+# 📈 Project Status
 
-The main objective of MediSphere Cognitive Twin is to demonstrate how **digital twin technology, healthcare interoperability, AI-assisted risk prediction, real-time monitoring, and preventive care workflows** can be integrated into a single healthcare management platform.
-
-The project follows the four milestone progression:
-
-```text
-Milestone 1
-FHIR + Digital Twin
-        ↓
-Milestone 2
-AI Risk Prediction
-        ↓
-Milestone 3
-Monitoring + Alerts
-        ↓
-Milestone 4
-Care Plans + Intervention
-        ↓
-Integrated Healthcare Platform
-```
-
----
-
-# 👩‍💻 Project Status
-
-**MediSphere Cognitive Twin — Integrated Prototype**
+## MediSphere Cognitive Twin — Integrated Prototype
 
 ```text
 Frontend              ✅ Angular 20
@@ -962,8 +982,10 @@ Synthetic Data        ✅ Enabled
 
 ---
 
-## 📌 Final Note
+# 👩‍💻 Final Note
 
-MediSphere Cognitive Twin demonstrates an end-to-end healthcare platform architecture connecting patient data ingestion, FHIR interoperability, digital twins, AI-assisted risk prediction, continuous monitoring, alerts, and provider-approved care planning.
+**MediSphere Cognitive Twin** demonstrates an integrated healthcare platform architecture connecting patient data ingestion, FHIR interoperability, digital patient twins, AI-assisted risk prediction, continuous monitoring, clinical alerts, and provider-approved care planning.
 
-**All data and AI outputs are synthetic/demo content and should not be interpreted as real medical information or medical advice.**
+The four milestones collectively demonstrate the progression from **healthcare data integration → digital twins → AI risk prediction → real-time monitoring → preventive intervention**.
+
+> **All data and AI outputs are synthetic/demo content and should not be interpreted as real medical information or medical advice.**
