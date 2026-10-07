@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medisphere-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: medisphere-backend }
+  template:
+    metadata:
+      labels: { app: medisphere-backend }
+    spec:
+      containers:
+        - name: backend
+          image: medisphere/backend:latest
+          ports: [{ containerPort: 8080 }]
+          env:
+            - name: MONGODB_URI
+              value: mongodb://medisphere-mongodb:27017/medisphere
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: medisphere-kafka:9092
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef: { name: medisphere-secrets, key: jwt-secret }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: medisphere-backend
+spec:
+  selector: { app: medisphere-backend }
+  ports: [{ port: 8080, targetPort: 8080 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medisphere-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: medisphere-frontend }
+  template:
+    metadata:
+      labels: { app: medisphere-frontend }
+    spec:
+      containers:
+        - name: frontend
+          image: medisphere/frontend:latest
+          ports: [{ containerPort: 80 }]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: medisphere-frontend
+spec:
+  type: LoadBalancer
+  selector: { app: medisphere-frontend }
+  ports: [{ port: 80, targetPort: 80 }]

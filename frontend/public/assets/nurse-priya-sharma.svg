@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"
+     role="img" aria-labelledby="title desc">
+  <title id="title">Nurse Priya Sharma</title>
+  <desc id="desc">Professional portrait of Nurse Priya Sharma, registered nurse on the medical-surgical ward</desc>
+
+  <defs>
+    <linearGradient id="nbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eaf4f2"/>
+      <stop offset="0.55" stop-color="#d6e8e5"/>
+      <stop offset="1" stop-color="#bcd6d3"/>
+    </linearGradient>
+    <linearGradient id="nscrub" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#17a398"/>
+      <stop offset="1" stop-color="#0d7f77"/>
+    </linearGradient>
+    <linearGradient id="nskin" x1="0.2" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#e8b98f"/>
+      <stop offset="1" stop-color="#d29b6d"/>
+    </linearGradient>
+    <linearGradient id="nhair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#26201f"/>
+      <stop offset="1" stop-color="#141010"/>
+    </linearGradient>
+    <radialGradient id="ncheek" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#cf7f6f" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#cf7f6f" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="nframe"><rect width="256" height="256"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#nframe)">
+    <!-- studio backdrop -->
+    <rect width="256" height="256" fill="url(#nbg)"/>
+    <circle cx="60" cy="48" r="80" fill="#ffffff" opacity="0.34"/>
+    <circle cx="212" cy="226" r="70" fill="#ffffff" opacity="0.22"/>
+
+    <!-- shoulders / scrub top -->
+    <path d="M26 256 C30 204 62 178 98 168 L158 168 C194 178 226 204 230 256 Z" fill="url(#nscrub)"/>
+    <!-- V-neck -->
+    <path d="M104 168 L128 214 L152 168 L138 162 L118 162 Z" fill="#0b6b64"/>
+    <!-- shoulder seams -->
+    <path d="M60 214 C74 196 84 184 98 176" fill="none" stroke="#0b6b64" stroke-width="3" opacity="0.55"/>
+    <path d="M196 214 C182 196 172 184 158 176" fill="none" stroke="#0b6b64" stroke-width="3" opacity="0.55"/>
+
+    <!-- ID badge -->
+    <rect x="164" y="206" width="34" height="24" rx="4" fill="#f7fafc" stroke="#0b6b64" stroke-width="2"/>
+    <rect x="169" y="211" width="10" height="12" rx="2" fill="#0d7f77" opacity="0.65"/>
+    <rect x="181" y="213" width="13" height="3" rx="1.5" fill="#9fb3bd"/>
+    <rect x="181" y="219" width="10" height="3" rx="1.5" fill="#c4d2da"/>
+    <path d="M181 176 L181 206" fill="none" stroke="#0b6b64" stroke-width="2.4"/>
+
+    <!-- stethoscope -->
+    <path d="M106 174 C106 210 118 232 128 238 C138 232 150 210 150 174"
+          fill="none" stroke="#25313d" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+    <circle cx="149" cy="198" r="8.5" fill="#93a7bd" stroke="#5b6f87" stroke-width="2.4"/>
+    <circle cx="149" cy="198" r="3.4" fill="#ccd9e7"/>
+    <circle cx="106" cy="174" r="4.2" fill="#25313d"/>
+    <circle cx="150" cy="174" r="4.2" fill="#25313d"/>
+
+    <!-- neck -->
+    <path d="M113 133 L113 162 C113 173 143 173 143 162 L143 133 Z" fill="#c98f62"/>
+    <path d="M113 133 L113 147 C124 157 133 157 143 147 L143 133 Z" fill="#b87f53" opacity="0.75"/>
+
+    <!-- hair: pulled back into a bun -->
+    <circle cx="128" cy="46" r="21" fill="url(#nhair)"/>
+    <path d="M76 130 C72 78 98 46 128 46 C158 46 184 78 180 130 C180 150 174 166 168 172
+             C172 140 166 116 156 104 C142 116 110 116 98 104 C88 116 84 140 88 172
+             C82 166 76 150 76 130 Z" fill="url(#nhair)"/>
+
+    <!-- face -->
+    <ellipse cx="128" cy="111" rx="40" ry="46" fill="url(#nskin)"/>
+    <ellipse cx="88" cy="113" rx="7.5" ry="11" fill="#dfa97c"/>
+    <ellipse cx="168" cy="113" rx="7.5" ry="11" fill="#dfa97c"/>
+
+    <!-- hair front: centre parting -->
+    <path d="M88 97 C88 64 105 47 128 47 C151 47 168 64 168 97
+             C163 80 152 70 140 68 C134 78 122 78 116 68 C104 70 93 80 88 97 Z" fill="url(#nhair)"/>
+    <path d="M168 97 C175 101 177 113 176 125 C174 111 171 103 168 97 Z" fill="url(#nhair)"/>
+    <path d="M88 97 C81 101 79 113 80 125 C82 111 85 103 88 97 Z" fill="url(#nhair)"/>
+
+    <!-- brows -->
+    <path d="M105 101 C111 96 121 96 127 100" fill="none" stroke="#2a1f1b" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M129 100 C135 96 145 96 151 101" fill="none" stroke="#2a1f1b" stroke-width="3.4" stroke-linecap="round"/>
+
+    <!-- eyes -->
+    <ellipse cx="115" cy="112" rx="8.2" ry="5.8" fill="#ffffff"/>
+    <ellipse cx="141" cy="112" rx="8.2" ry="5.8" fill="#ffffff"/>
+    <circle cx="116" cy="112.5" r="4.2" fill="#2c1d17"/>
+    <circle cx="142" cy="112.5" r="4.2" fill="#2c1d17"/>
+    <circle cx="117.5" cy="110.9" r="1.4" fill="#ffffff"/>
+    <circle cx="143.5" cy="110.9" r="1.4" fill="#ffffff"/>
+    <path d="M106 107 C111 103 120 103 124 106" fill="none" stroke="#241a15" stroke-width="1.9" stroke-linecap="round"/>
+    <path d="M132 106 C136 103 145 103 150 107" fill="none" stroke="#241a15" stroke-width="1.9" stroke-linecap="round"/>
+
+    <!-- cheeks -->
+    <ellipse cx="105" cy="127" rx="12" ry="9" fill="url(#ncheek)"/>
+    <ellipse cx="151" cy="127" rx="12" ry="9" fill="url(#ncheek)"/>
+
+    <!-- nose -->
+    <path d="M128 113 C126 123 123 129 121 132 C124 135 132 135 135 132 C133 129 130 123 128 113 Z"
+          fill="#d69c70" opacity="0.85"/>
+    <path d="M122 132 C126 134 130 134 134 132" fill="none" stroke="#bd8356" stroke-width="1.6" stroke-linecap="round"/>
+
+    <!-- lips -->
+    <path d="M118 144 C123 140 133 140 138 144 C133 151 123 151 118 144 Z" fill="#b56355"/>
+    <path d="M118 144 C124 146 132 146 138 144" fill="none" stroke="#96493f" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- chin shading -->
+    <ellipse cx="128" cy="158" rx="15" ry="6" fill="#c4875c" opacity="0.35"/>
+  </g>
+</svg>

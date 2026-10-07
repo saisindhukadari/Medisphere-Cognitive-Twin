@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"
+     role="img" aria-labelledby="title desc">
+  <title id="title">Dr. Sarah Khan</title>
+  <desc id="desc">Professional portrait of Dr. Sarah Khan, consultant physician in cardiology</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef3f8"/>
+      <stop offset="0.55" stop-color="#dde6f0"/>
+      <stop offset="1" stop-color="#c6d3e2"/>
+    </linearGradient>
+    <linearGradient id="coat" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dde5ee"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0.2" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#f6d3b4"/>
+      <stop offset="1" stop-color="#e6b795"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3d2b26"/>
+      <stop offset="1" stop-color="#241815"/>
+    </linearGradient>
+    <linearGradient id="scrub" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c82c8"/>
+      <stop offset="1" stop-color="#0e6fbd"/>
+    </linearGradient>
+    <radialGradient id="cheek" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#e08b7c" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#e08b7c" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="frame"><rect width="256" height="256" rx="0"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#frame)">
+    <!-- studio backdrop -->
+    <rect width="256" height="256" fill="url(#bg)"/>
+    <circle cx="196" cy="52" r="86" fill="#ffffff" opacity="0.35"/>
+    <circle cx="44" cy="228" r="72" fill="#ffffff" opacity="0.22"/>
+
+    <!-- shoulders / white coat -->
+    <path d="M28 256 C30 202 64 176 100 166 L156 166 C192 176 226 202 228 256 Z"
+          fill="url(#coat)"/>
+    <!-- coat lapels -->
+    <path d="M100 166 L128 214 L100 256 L74 256 C76 214 84 186 100 166 Z" fill="#f4f7fb"/>
+    <path d="M156 166 L128 214 L156 256 L182 256 C180 214 172 186 156 166 Z" fill="#f4f7fb"/>
+    <path d="M100 166 L128 214 L156 166 L156 176 L128 222 L100 176 Z" fill="#cbd6e4" opacity="0.75"/>
+
+    <!-- scrub / shirt under the coat -->
+    <path d="M110 170 L128 214 L146 170 L136 164 L120 164 Z" fill="url(#scrub)"/>
+
+    <!-- stethoscope -->
+    <path d="M104 172 C104 208 116 230 128 236 C140 230 152 208 152 172"
+          fill="none" stroke="#2b3947" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+    <path d="M104 172 C104 196 110 214 120 224" fill="none" stroke="#41546a" stroke-width="3.4" stroke-linecap="round"/>
+    <circle cx="151" cy="196" r="8.5" fill="#8fa3ba" stroke="#5b6f87" stroke-width="2.4"/>
+    <circle cx="151" cy="196" r="3.4" fill="#c9d6e5"/>
+    <circle cx="104" cy="172" r="4.2" fill="#2b3947"/>
+    <circle cx="152" cy="172" r="4.2" fill="#2b3947"/>
+
+    <!-- neck -->
+    <path d="M112 132 L112 160 C112 172 144 172 144 160 L144 132 Z" fill="#e2b18e"/>
+    <path d="M112 132 L112 146 C124 156 134 156 144 146 L144 132 Z" fill="#cf9c78" opacity="0.75"/>
+
+    <!-- hair back -->
+    <path d="M74 128 C70 74 96 40 128 40 C160 40 186 74 182 128 C182 152 176 168 170 174
+             C174 138 168 112 160 100 C146 112 110 112 96 100 C88 112 82 138 86 174
+             C80 168 74 152 74 128 Z" fill="url(#hair)"/>
+
+    <!-- face -->
+    <ellipse cx="128" cy="110" rx="41" ry="47" fill="url(#skin)"/>
+    <!-- ears -->
+    <ellipse cx="87" cy="112" rx="7.5" ry="11" fill="#eec4a4"/>
+    <ellipse cx="169" cy="112" rx="7.5" ry="11" fill="#eec4a4"/>
+
+    <!-- hair front -->
+    <path d="M87 96 C87 62 105 46 128 46 C151 46 169 62 169 96 C164 78 152 68 138 66
+             C132 76 110 80 98 74 C93 80 89 88 87 96 Z" fill="url(#hair)"/>
+    <path d="M169 96 C176 100 178 112 177 124 C175 110 172 102 169 96 Z" fill="url(#hair)"/>
+
+    <!-- brows -->
+    <path d="M104 100 C110 95 121 95 127 99" fill="none" stroke="#3a2822" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M129 99 C135 95 146 95 152 100" fill="none" stroke="#3a2822" stroke-width="3.6" stroke-linecap="round"/>
+
+    <!-- eyes -->
+    <ellipse cx="114" cy="111" rx="8.5" ry="6" fill="#ffffff"/>
+    <ellipse cx="142" cy="111" rx="8.5" ry="6" fill="#ffffff"/>
+    <circle cx="115" cy="111.5" r="4.4" fill="#3f2d22"/>
+    <circle cx="143" cy="111.5" r="4.4" fill="#3f2d22"/>
+    <circle cx="116.6" cy="109.8" r="1.5" fill="#ffffff"/>
+    <circle cx="144.6" cy="109.8" r="1.5" fill="#ffffff"/>
+    <path d="M105 106 C110 102 119 102 123 105" fill="none" stroke="#2f221c" stroke-width="1.9" stroke-linecap="round"/>
+    <path d="M133 105 C137 102 146 102 151 106" fill="none" stroke="#2f221c" stroke-width="1.9" stroke-linecap="round"/>
+
+    <!-- cheeks -->
+    <ellipse cx="104" cy="126" rx="12" ry="9" fill="url(#cheek)"/>
+    <ellipse cx="152" cy="126" rx="12" ry="9" fill="url(#cheek)"/>
+
+    <!-- nose -->
+    <path d="M128 112 C126 122 123 128 121 131 C124 134 132 134 135 131 C133 128 130 122 128 112 Z"
+          fill="#e8b896" opacity="0.85"/>
+    <path d="M122 131 C126 133 130 133 134 131" fill="none" stroke="#cf9a76" stroke-width="1.6" stroke-linecap="round"/>
+
+    <!-- lips -->
+    <path d="M117 143 C122 139 134 139 139 143 C134 150 122 150 117 143 Z" fill="#c9705f"/>
+    <path d="M117 143 C124 145 132 145 139 143" fill="none" stroke="#a9564a" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- chin / jaw shading -->
+    <ellipse cx="128" cy="157" rx="15" ry="6" fill="#d9a17f" opacity="0.35"/>
+  </g>
+</svg>

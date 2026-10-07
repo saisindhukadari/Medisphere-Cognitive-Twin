@@ -1,0 +1,606 @@
+<div class="card-title-row dash-head">
+  <div>
+    <span class="pill"><span class="live-dot"></span> {{ workspaceLabel }}</span>
+    <h1 style="margin-top:0.5rem">{{ greeting }}, {{ firstName }}</h1>
+    <p class="card-sub">
+      {{ roleLabel }} · {{ now | date: 'EEEE, MMM d, y, h:mm a' }}
+    </p>
+  </div>
+
+  <div class="row dash-head-actions">
+    <span class="chip" title="Figures are aggregated from the backend API">Backend data</span>
+    <span class="chip" [ngClass]="{ warn: num(s?.criticalOpen) > 0 }">{{ statusText }}</span>
+    <span class="chip" aria-live="polite">Updated {{ agoLabel }}</span>
+
+    <label class="switch">
+      <input type="checkbox" [ngModel]="autoRefresh" (ngModelChange)="setAutoRefresh($event)"
+             aria-label="Auto refresh dashboard" />
+      <span class="track"></span> <span>Auto-refresh</span>
+    </label>
+
+    <button type="button" class="outline-btn" (click)="refreshAll()" [disabled]="loading">↻ Refresh</button>
+    <button type="button" class="outline-btn" (click)="toggleTheme()"
+            [attr.aria-label]="appearance.isDark ? 'Switch to light theme' : 'Switch to dark theme'">
+      {{ appearance.isDark ? '☀ Light' : '☾ Dark' }}
+    </button>
+    <a class="outline-btn" routerLink="/alerts" *ngIf="!isPatient">🔔 Alerts</a>
+  </div>
+</div>
+
+<!-- ============================== filters ============================== -->
+<div class="card dash-filters">
+  <div class="filter-grid">
+    <div class="field-group">
+      <label class="field" for="f-group">Patient group</label>
+      <select id="f-group" class="input" [(ngModel)]="patientGroup" (ngModelChange)="onGroupChange()">
+        <option value="high">High risk</option>
+        <option value="medium">Medium risk</option>
+        <option value="low">Low risk</option>
+        <option value="all">All patients</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label class="field" for="f-monitor">Monitoring status</label>
+      <select id="f-monitor" class="input" [(ngModel)]="monitorFilter">
+        <option value="all">All devices</option>
+        <option value="online">Online only</option>
+        <option value="offline">Offline / idle</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label class="field" for="f-range">Time period</label>
+      <select id="f-range" class="input" [(ngModel)]="timeRange" (ngModelChange)="onRangeChange()">
+        <option *ngFor="let r of ranges" [value]="r.key">{{ r.label }}</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label class="field" for="f-care">Care plan</label>
+      <select id="f-care" class="input" [(ngModel)]="careFilter">
+        <option value="all">All plans</option>
+        <option value="active">Active &amp; approved</option>
+        <option value="pending">Awaiting review</option>
+        <option value="completed">Completed &amp; closed</option>
+      </select>
+    </div>
+
+    <div class="filter-toggles">
+      <label class="switch">
+        <input type="checkbox" [ngModel]="appearance.prefs.compactDashboard"
+               (ngModelChange)="setCompact($event)" />
+        <span class="track"></span> <span>Compact view</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" [ngModel]="appearance.prefs.showWearables"
+               (ngModelChange)="setSection('showWearables', $event)" />
+        <span class="track"></span> <span>Wearables</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" [ngModel]="appearance.prefs.showAlerts"
+               (ngModelChange)="setSection('showAlerts', $event)" />
+        <span class="track"></span> <span>Alerts</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" [ngModel]="appearance.prefs.showHighRisk"
+               (ngModelChange)="setSection('showHighRisk', $event)" />
+        <span class="track"></span> <span>Watchlist</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== error ============================== -->
+<div class="error-box" *ngIf="error">
+  {{ error }}
+  <button type="button" class="btn sm secondary" (click)="loadSummary()">Retry</button>
+</div>
+
+<!-- ============================== KPIs ============================== -->
+<div *ngIf="loading" class="grid kpi-grid stagger">
+  <div class="card kpi skeleton" *ngFor="let k of [1,2,3,4,5,6,7,8]; let i = index"
+       [style.--i]="i" style="min-height:132px"></div>
+</div>
+
+<ng-container *ngIf="!loading && s">
+  <div class="kpi-group" *ngFor="let g of kpiGroups">
+    <div class="section-head">
+      <div><h2>{{ g.title }}</h2></div>
+    </div>
+    <div class="grid kpi-grid stagger">
+      <button type="button" class="card kpi hoverable kpi-click" *ngFor="let k of g.items; let i = index"
+              [style.--i]="i" (click)="goKpi(k)"
+              [attr.aria-label]="k.label + ': ' + k.value + (k.suffix || '') + '. Open related page.'">
+        <span class="kpi-icon" aria-hidden="true">{{ k.icon }}</span>
+        <span class="value">
+          <app-count [value]="k.value" [suffix]="k.suffix ?? ''" [decimals]="k.decimals ?? 0" />
+        </span>
+        <span class="label">{{ k.label }}</span>
+        <span class="trend" [class.down]="k.tone === 'down'" [class.neutral]="k.tone === 'neutral'">{{ k.trend }}</span>
+        <span class="kpi-go" aria-hidden="true">→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================== rings ============================== -->
+  <div class="section-head">
+    <div>
+      <h2>Progress rings</h2>
+      <p>Select a ring to open its breakdown, methodology and a jump-to action.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="error-box" *ngIf="errRings">
+      {{ errRings }}
+      <button type="button" class="btn sm secondary" (click)="loadRings()">Retry</button>
+    </div>
+
+    <div class="ring-grid" *ngIf="!errRings">
+      <div class="skeleton" *ngIf="loadingRings" style="height:220px; border-radius:16px"></div>
+      <ng-container *ngIf="!loadingRings">
+        <app-ring-card *ngFor="let r of ringList"
+                       [title]="r.title"
+                       [value]="r.value"
+                       [centerValue]="r.center"
+                       [centerLabel]="r.caption"
+                       [caption]="''"
+                       [hint]="r.hint"
+                       [segments]="r.segments"
+                       (open)="openRing(r.key)">
+        </app-ring-card>
+      </ng-container>
+    </div>
+
+    <p class="disclaimer" *ngIf="rings?.disclaimer">{{ rings.disclaimer }}</p>
+  </div>
+
+  <!-- ============================== health trends ============================== -->
+  <div class="section-head">
+    <div>
+      <h2>Health trends</h2>
+      <p>Cohort averages computed server-side from stored vitals — {{ timeRange === '24h' ? 'hourly' : 'daily' }} buckets.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="chip-row" role="group" aria-label="Select metric">
+      <button type="button" class="chip-btn" *ngFor="let m of metrics" [class.active]="metric === m.key"
+              [attr.aria-pressed]="metric === m.key" (click)="metric = m.key; onMetricChange()">
+        {{ m.label }}
+      </button>
+    </div>
+
+    <div class="chip-row" style="margin-top:0.7rem" role="group" aria-label="Select time range">
+      <button type="button" class="chip-btn" *ngFor="let r of ranges" [class.active]="timeRange === r.key"
+              [attr.aria-pressed]="timeRange === r.key" (click)="timeRange = r.key; onRangeChange()">
+        {{ r.label }}
+      </button>
+    </div>
+
+    <div class="error-box" *ngIf="errTrend">
+      {{ errTrend }}
+      <button type="button" class="btn sm secondary" (click)="loadTrend()">Retry</button>
+    </div>
+
+    <div class="skeleton" *ngIf="loadingTrend && !errTrend" style="height:250px; border-radius:16px; margin-top:1rem"></div>
+
+    <ng-container *ngIf="!loadingTrend && !errTrend">
+      <div class="empty" *ngIf="!trendPoints.length">
+        No {{ trendMetricLabel | lowercase }} readings were stored for this window yet. Try a wider time period.
+      </div>
+
+      <div *ngIf="trendPoints.length" class="trend-wrap">
+        <app-line-chart [values]="trendValues" [labels]="trendLabels" [hint]="trendMetricLabel + ' · ' + timeRange" />
+        <div class="trend-stats">
+          <div class="tstat"><span class="ts-k">Minimum</span><span class="ts-v number">{{ trend?.min ?? '—' }} {{ trendUnit }}</span></div>
+          <div class="tstat"><span class="ts-k">Average</span><span class="ts-v number">{{ trend?.avg ?? '—' }} {{ trendUnit }}</span></div>
+          <div class="tstat"><span class="ts-k">Maximum</span><span class="ts-v number">{{ trend?.max ?? '—' }} {{ trendUnit }}</span></div>
+          <div class="tstat"><span class="ts-k">Samples</span><span class="ts-v number">{{ trend?.sampleCount ?? 0 }}</span></div>
+          <div class="tstat"><span class="ts-k">Buckets</span><span class="ts-v number">{{ trendPoints.length }}</span></div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- ============================== live vitals + wearables ============================== -->
+  <div class="grid cols-2" style="margin-top:1rem">
+    <!-- live vitals -->
+    <div class="card">
+      <div class="card-title-row" style="margin-bottom:0.6rem">
+        <div>
+          <span class="pill" [class.pulsing]="liveOn"><span class="live-dot"></span> Live vitals</span>
+          <p class="card-sub" style="margin-top:0.35rem">
+            {{ liveOn ? 'Polling every 15 seconds' : 'Paused — turn the toggle on to resume' }}
+          </p>
+        </div>
+        <div class="row">
+          <label class="switch">
+            <input type="checkbox" [ngModel]="liveOn" (ngModelChange)="setLive($event)"
+                   aria-label="Toggle live vitals stream" />
+            <span class="track"></span>
+          </label>
+          <button type="button" class="outline-btn" (click)="loadLive()">↻</button>
+        </div>
+      </div>
+
+      <div class="error-box" *ngIf="errLive">
+        {{ errLive }}
+        <button type="button" class="btn sm secondary" (click)="loadLive()">Retry</button>
+      </div>
+
+      <div class="skeleton" *ngIf="loadingLive && !errLive" style="height:150px; border-radius:14px"></div>
+
+      <div class="live-grid" *ngIf="!loadingLive && !errLive">
+        <div class="empty" *ngIf="!liveVitals.length">No streaming vitals are available right now.</div>
+        <div class="live-item" *ngFor="let v of liveVitals" [class.abnormal]="v.abnormal">
+          <div class="li-head">
+            <span class="li-label">{{ v.label }}</span>
+            <span class="badge" [class.critical]="v.abnormal" [class.active]="!v.abnormal">
+              {{ v.abnormal ? 'out of range' : 'normal' }}
+            </span>
+          </div>
+          <div class="li-value number">
+            {{ v.value ?? '—' }}<small>{{ v.unit }}</small>
+          </div>
+          <app-spark [points]="v.spark ?? []" [label]="v.label"
+                     [color]="v.abnormal ? 'var(--danger)' : 'var(--accent)'" />
+          <div class="li-meta small muted" [title]="v.threshold">
+            {{ live?.patientsStreaming ?? 0 }} patients streaming ·
+            {{ live?.readingsLastHour ?? 0 }} readings/h
+            · {{ fmtTime(v.at) }}
+          </div>
+        </div>
+      </div>
+
+      <p class="disclaimer" *ngIf="live?.disclaimer">{{ live.disclaimer }}</p>
+    </div>
+
+    <!-- wearables -->
+    <div class="card" *ngIf="appearance.prefs.showWearables">
+      <div class="card-title-row" style="margin-bottom:0.6rem">
+        <div>
+          <h2 style="font-size:1.05rem">Wearable health monitoring</h2>
+          <p class="card-sub" style="margin-top:0.35rem">
+            {{ num(wearSummary.totalDevices) }} devices · {{ num(wearSummary.coveragePct) }}% connected
+            · avg battery {{ num(wearSummary.avgBattery) }}%
+          </p>
+        </div>
+        <div class="row">
+          <span class="chip">Paired devices</span>
+          <button type="button" class="outline-btn" (click)="loadWearables()">↻</button>
+        </div>
+      </div>
+
+      <div class="chip-row" role="group" aria-label="Filter devices by monitoring status">
+        <button type="button" class="chip-btn" [class.active]="monitorFilter === 'all'"
+                [attr.aria-pressed]="monitorFilter === 'all'" (click)="setMonitorFilter('all')">All</button>
+        <button type="button" class="chip-btn" [class.active]="monitorFilter === 'online'"
+                [attr.aria-pressed]="monitorFilter === 'online'" (click)="setMonitorFilter('online')">Online</button>
+        <button type="button" class="chip-btn" [class.active]="monitorFilter === 'offline'"
+                [attr.aria-pressed]="monitorFilter === 'offline'" (click)="setMonitorFilter('offline')">Offline / idle</button>
+      </div>
+
+      <div class="error-box" *ngIf="errWearables">
+        {{ errWearables }}
+        <button type="button" class="btn sm secondary" (click)="loadWearables()">Retry</button>
+      </div>
+
+      <div class="skeleton" *ngIf="loadingWearables && !errWearables" style="height:200px; border-radius:14px"></div>
+
+      <div class="device-list" *ngIf="!loadingWearables && !errWearables">
+        <div class="empty" *ngIf="!filteredDevices.length">
+          No devices match the “{{ monitorFilter }}” filter.
+        </div>
+        <button type="button" class="device-row" *ngFor="let d of visibleDevices"
+                (click)="openDevice(d)" [attr.aria-label]="'Open details for ' + d.name">
+          <span class="status-dot" [ngClass]="(d.status || '').toLowerCase()" aria-hidden="true"></span>
+          <span class="dr-main">
+            <span class="dr-name">{{ d.name }}</span>
+            <span class="dr-sub small muted">{{ d.patientName }} · {{ deviceType(d.type) }}</span>
+          </span>
+          <span class="dr-reading number">
+            {{ d.latest ? d.latest.value + ' ' + (d.latest.unit || '') : '—' }}
+          </span>
+          <span class="badge" [class.active]="d.status === 'ONLINE'" [class.medium]="d.status === 'IDLE'"
+                [class.high]="d.status === 'OFFLINE'">
+            {{ d.status | titlecase }}
+          </span>
+          <span class="dr-meta small muted">
+            🔋 {{ d.battery ?? '—' }}% · {{ hoursLabel(d.hoursSinceSync) }}
+          </span>
+        </button>
+        <button type="button" class="outline-btn sm" *ngIf="moreDevices" (click)="showMoreDevices()">
+          Show {{ moreDevices }} more device{{ moreDevices === 1 ? '' : 's' }}
+        </button>
+      </div>
+
+      <p class="disclaimer" *ngIf="wearables?.disclaimer">{{ wearables.disclaimer }}</p>
+    </div>
+  </div>
+
+  <!-- ============================== alerts + watchlist ============================== -->
+  <div class="grid cols-2" style="margin-top:1rem">
+    <div class="card" *ngIf="appearance.prefs.showAlerts">
+      <div class="card-title-row" style="margin-bottom:0.6rem">
+        <div>
+          <h2 style="font-size:1.05rem">Clinical alerts</h2>
+          <p class="card-sub" style="margin-top:0.35rem">
+            {{ num(s?.activeAlerts) }} active · {{ num(s?.criticalOpen) }} critical
+          </p>
+        </div>
+        <div class="row">
+          <a class="outline-btn" routerLink="/alerts" *ngIf="!isPatient">Open console</a>
+          <button type="button" class="outline-btn" (click)="loadAlerts()">↻</button>
+        </div>
+      </div>
+
+      <div class="error-box" *ngIf="errAlerts">
+        {{ errAlerts }}
+        <button type="button" class="btn sm secondary" (click)="loadAlerts()">Retry</button>
+      </div>
+
+      <div class="skeleton" *ngIf="loadingAlerts && !errAlerts" style="height:200px; border-radius:14px"></div>
+
+      <div class="alert-list" *ngIf="!loadingAlerts && !errAlerts">
+        <div class="empty" *ngIf="!alerts.length">No alerts in the queue. Everything is within thresholds.</div>
+        <div class="alert-row" *ngFor="let a of alerts">
+          <span class="sev-dot" [ngClass]="(a.category || '').toLowerCase()" aria-hidden="true"></span>
+          <div class="al-main">
+            <div class="al-top">
+              <span class="al-type">{{ a.type }}</span>
+              <span class="badge" [class.critical]="a.category === 'CRITICAL'" [class.high]="a.category === 'HIGH'"
+                    [class.medium]="a.category === 'MEDIUM'" [class.low]="a.category === 'LOW'">
+                {{ a.category }}
+              </span>
+              <span class="badge" [class.active]="a.status === 'ACKNOWLEDGED' || a.status === 'INVESTIGATING'"
+                    [class.new]="a.status === 'NEW'" [class.resolved]="a.status === 'RESOLVED'">
+                {{ prettyStatus(a.status) }}
+              </span>
+            </div>
+            <div class="al-sub small muted">
+              {{ a.patientName }} · {{ a.value }} vs {{ a.threshold }} · {{ fmtTime(a.createdAt) }}
+            </div>
+            <div class="al-actions">
+              <button type="button" class="outline-btn sm"
+                      *ngIf="!isPatient && a.status === 'NEW'" (click)="acknowledge(a)">Acknowledge</button>
+              <a class="outline-btn sm" [routerLink]="['/patients', a.patientId]">View patient</a>
+              <button type="button" class="outline-btn sm" (click)="openAlert(a)">View details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="disclaimer">Alert thresholds are configurable demo rules, not universal medical guidance.</p>
+    </div>
+
+    <div class="card" *ngIf="appearance.prefs.showHighRisk">
+      <div class="card-title-row" style="margin-bottom:0.6rem">
+        <div>
+          <h2 style="font-size:1.05rem">Patient watchlist</h2>
+          <p class="card-sub" style="margin-top:0.35rem">
+            {{ patientGroup === 'all' ? 'All patients' : (patientGroup | titlecase) + ' risk' }}
+            · {{ watchlist.length }} shown
+          </p>
+        </div>
+        <div class="row">
+          <a class="outline-btn" routerLink="/patients" [queryParams]="{ risk: patientGroup === 'all' ? '' : patientGroup }">View all</a>
+          <button type="button" class="outline-btn" (click)="loadWatchlist()">↻</button>
+        </div>
+      </div>
+
+      <div class="error-box" *ngIf="errWatch">
+        {{ errWatch }}
+        <button type="button" class="btn sm secondary" (click)="loadWatchlist()">Retry</button>
+      </div>
+
+      <div class="skeleton" *ngIf="loadingWatch && !errWatch" style="height:200px; border-radius:14px"></div>
+
+      <div class="watch-list" *ngIf="!loadingWatch && !errWatch">
+        <div class="empty" *ngIf="!watchlist.length">No patients in this group right now.</div>
+        <button type="button" class="watch-row" *ngFor="let p of watchlist" (click)="openPatient(p)"
+                [attr.aria-label]="'Open details for ' + p.name">
+          <span class="wr-score number" [ngClass]="(p.riskStatus || '').toLowerCase()">{{ p.riskScore }}</span>
+          <span class="wr-main">
+            <span class="wr-name">{{ p.name }}</span>
+            <span class="wr-sub small muted">{{ p.age }}y · {{ p.riskFactor }} · {{ p.latestVital }}</span>
+          </span>
+          <span class="wr-meta">
+            <span class="badge" [class.critical]="p.riskStatus === 'HIGH'" [class.medium]="p.riskStatus === 'MEDIUM'"
+                  [class.low]="p.riskStatus === 'LOW'">
+              {{ p.riskStatus }}
+            </span>
+            <span class="small muted">{{ p.activeAlerts }} alert{{ p.activeAlerts === 1 ? '' : 's' }}</span>
+          </span>
+        </button>
+      </div>
+
+      <p class="disclaimer">Risk scores are generated by the platform's model service.</p>
+    </div>
+  </div>
+
+  <!-- ============================== risk + care ============================== -->
+  <div class="grid cols-2" style="margin-top:1rem">
+    <div class="card">
+      <div class="card-title-row" style="margin-bottom:0.6rem">
+        <div>
+          <h2 style="font-size:1.05rem">Risk score visualization</h2>
+          <p class="card-sub" style="margin-top:0.35rem">Top-scoring patient and the model's strongest drivers.</p>
+        </div>
+        <a class="outline-btn" routerLink="/risk-predictions">All predictions</a>
+      </div>
+
+      <div class="error-box" *ngIf="errRisk">
+        {{ errRisk }}
+        <button type="button" class="btn sm secondary" (click)="loadRisk()">Retry</button>
+      </div>
+
+      <div class="skeleton" *ngIf="loadingRisk && !errRisk" style="height:190px; border-radius:14px"></div>
+
+      <div class="risk-wrap" *ngIf="!loadingRisk && !errRisk">
+        <div class="empty" *ngIf="!topPred">No risk predictions have been generated yet.</div>
+
+        <ng-container *ngIf="topPred">
+          <div class="risk-top">
+            <app-donut [value]="num(topPred.overallScore)" [label]="'risk score'"
+                       [caption]="topPred.riskCategory" [suffix]="''" [size]="150"
+                       [color]="topPred.overallScore >= 16 ? 'var(--danger)' : ''" />
+            <div class="risk-facts">
+              <div class="stat-row"><span class="sr-key">Patient</span><span class="sr-val">{{ topPred.patientName }}</span></div>
+              <div class="stat-row"><span class="sr-key">Cardiovascular (10y)</span><span class="sr-val number">{{ topPred.cardiovascularRisk10y }}%</span></div>
+              <div class="stat-row"><span class="sr-key">Diabetes complication</span><span class="sr-val number">{{ topPred.diabetesComplicationRisk }}%</span></div>
+              <div class="stat-row"><span class="sr-key">Trend</span><span class="sr-val">{{ topPred.trend }}</span></div>
+              <div class="stat-row"><span class="sr-key">Model</span><span class="sr-val">{{ topPred.modelVersion }}</span></div>
+            </div>
+          </div>
+
+          <div class="risk-shap">
+            <h3 class="sheet-h">Top contributing factors</h3>
+            <app-shap [features]="shapFeatures" />
+          </div>
+
+          <div class="stat-row">
+            <span class="sr-key">Cohort distribution</span>
+            <span class="sr-val">
+              {{ num(s?.patientRiskDistribution?.HIGH) }} high ·
+              {{ num(s?.patientRiskDistribution?.MEDIUM) }} medium ·
+              {{ num(s?.patientRiskDistribution?.LOW) }} low
+            </span>
+          </div>
+        </ng-container>
+      </div>
+
+      <p class="small muted">Model-generated explanation of the strongest contributing factors.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title-row" style="margin-bottom:0.6rem">
+        <div>
+          <h2 style="font-size:1.05rem">Care plan progress</h2>
+          <p class="card-sub" style="margin-top:0.35rem">
+            {{ num(s?.activeCarePlans) }} active · {{ adherencePct }}% adherence
+          </p>
+        </div>
+        <div class="row">
+          <button type="button" class="outline-btn" (click)="openCareDetail()">Details</button>
+          <a class="outline-btn" routerLink="/care-plans" [queryParams]="{ status: careFilter === 'all' ? '' : careFilter.toUpperCase() }">Open</a>
+        </div>
+      </div>
+
+      <div class="chip-row" role="group" aria-label="Filter care plans">
+        <button type="button" class="chip-btn" *ngFor="let f of careFilters"
+                [class.active]="careFilter === f.k" [attr.aria-pressed]="careFilter === f.k"
+                (click)="setCareFilter(f.k)">{{ f.l }}</button>
+      </div>
+
+      <div class="progress-list" style="margin-top:0.9rem">
+        <div class="progress-row" *ngFor="let r of careStatusRows">
+          <span class="pr-label">{{ r.label }}</span>
+          <div class="pr-bar"><div class="pr-fill" [style.width.%]="barPct(r.value)"></div></div>
+          <span class="pr-value number">{{ r.value }}</span>
+        </div>
+        <div class="empty" *ngIf="!careStatusRows.length">No plans match this filter.</div>
+      </div>
+
+      <div class="care-foot">
+        <div class="stat-row"><span class="sr-key">Delivered interventions</span>
+          <span class="sr-val number">{{ num(s?.completedInterventions) }} / {{ num(s?.scheduledInterventions) }}</span></div>
+        <div class="stat-row"><span class="sr-key">Awaiting doctor approval</span>
+          <span class="sr-val number">{{ num(s?.pendingDoctorReviews) }}</span></div>
+        <div class="stat-row"><span class="sr-key">Completed plans</span>
+          <span class="sr-val number">{{ num(s?.completedCarePlans) }}</span></div>
+      </div>
+
+      <p class="disclaimer">The AI drafts care plans but never auto-approves medication — a doctor signs off every plan.</p>
+    </div>
+  </div>
+
+  <!-- ============================== follow-ups ============================== -->
+  <div class="section-head">
+    <div>
+      <h2>Upcoming follow-ups</h2>
+      <p>Open care plans sorted by priority, with the patient activities scheduled for this week.</p>
+    </div>
+    <a class="outline-btn" routerLink="/care-plans">All care plans</a>
+  </div>
+
+  <div class="card">
+    <div class="error-box" *ngIf="errCare">
+      {{ errCare }}
+      <button type="button" class="btn sm secondary" (click)="loadCarePlans()">Retry</button>
+    </div>
+
+    <div class="skeleton" *ngIf="loadingCare && !errCare" style="height:190px; border-radius:16px"></div>
+
+    <div class="followup-list" *ngIf="!loadingCare && !errCare">
+      <div class="empty" *ngIf="!followUps.length">
+        <span class="empty-icon">✚</span>
+        <h3>No open care plans</h3>
+        <p>Every plan in this view is completed or rejected. Generate a new plan to start tracking follow-ups.</p>
+      </div>
+
+      <div class="followup-row" *ngFor="let f of followUps">
+        <div class="fu-main">
+          <div class="fu-top">
+            <strong>{{ f.patientName }}</strong>
+            <span class="badge" [ngClass]="priorityTone(f.priority)">{{ f.priority || 'Routine' }} priority</span>
+            <span class="badge" [class]="'badge ' + (f.status | lowercase)">{{ prettyStatus(f.status) }}</span>
+            <span class="small muted" *ngIf="f.providerName">{{ f.providerName }}</span>
+          </div>
+          <p class="small" style="margin:0.3rem 0 0">{{ f.followUpSchedule || 'Follow-up cadence not set for this plan.' }}</p>
+          <ul class="fu-acts">
+            <li *ngFor="let a of activitiesFor(f)">{{ a }}</li>
+          </ul>
+        </div>
+        <div class="fu-meta">
+          <span class="small muted">Adherence {{ f.adherenceScore ?? 0 }}%</span>
+          <app-progress [value]="f.adherenceScore ?? 0" [tone]="(f.adherenceScore ?? 0) < 50 ? 'warn' : ''"></app-progress>
+          <a class="btn sm secondary" [routerLink]="['/care-plans', f.id]">Open plan</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="small muted" *ngIf="!loadingCare && !errCare && followUps.length">
+      {{ carePlanActivityCount }} planned activities across {{ carePlans.length }} care plan{{ carePlans.length === 1 ? '' : 's' }}.
+    </p>
+  </div>
+
+  <!-- ============================== activity ============================== -->
+  <div class="section-head">
+    <div>
+      <h2>Recent activity</h2>
+      <p>Latest audited actions across the platform.</p>
+    </div>
+    <a class="outline-btn" routerLink="/audit" *ngIf="!isPatient">Full audit log</a>
+  </div>
+
+  <div class="card">
+    <div class="skeleton" *ngIf="loading" style="height:160px; border-radius:14px"></div>
+    <div class="timeline" *ngIf="!loading">
+      <div class="empty" *ngIf="!activity.length">No audited activity has been recorded yet.</div>
+      <div class="timeline-item" *ngFor="let a of activity">
+        <b>{{ a.action }} {{ a.resource }}</b>
+        <span class="tl-time">{{ fmtTime(a.timestamp) }}</span>
+        <span class="tl-detail">
+          {{ a.user }}
+          <ng-container *ngIf="a.details"> · {{ a.details }}</ng-container>
+          <span class="badge" [class.active]="a.result !== 'DENIED'" [class.high]="a.result === 'DENIED'">{{ a.result }}</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<!-- ============================== detail sheet ============================== -->
+<app-detail-sheet
+  [open]="sheetOpen"
+  [title]="sheetTitle"
+  [subtitle]="sheetSubtitle"
+  [badge]="sheetBadge"
+  [badgeTone]="sheetBadgeTone"
+  [blocks]="sheetBlocks"
+  [actions]="sheetActions"
+  [disclaimer]="sheetDisclaimer"
+  (close)="closeSheet()">
+</app-detail-sheet>
